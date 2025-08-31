@@ -130,5 +130,9 @@ SELECT * FROM pessoas LIMIT 10;
 
 ---
 
+## 👥 Desenvolvedores
 
+- Leticia Cristina Dos Santos Passos RM: 555241
+- André Rogério Vieira Pavanela Altobelli Antunes RM: 554764
+- Enrico Figueiredo Del Guerra RM: 558604
 
