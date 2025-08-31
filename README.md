@@ -16,7 +16,7 @@ Este repositório contém uma aplicação **Flask** com **CRUD completo** integr
 ![Arquitetura Atual](./images/Arquitetura_atual.png)
 
 ### Arquitetura futura
-![Arquitetura Futura](./images/Arquitetura_futura.png)
+![Arquitetura Futura](./images/arquitetura_futura.png)
 
 
 ## Análise da Arquitetura (resumo)
