@@ -1,0 +1,55 @@
+version: '3.9'
+
+services:
+  db:
+    image: mysql:8.1
+    container_name: mysql_enova
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: enova
+      MYSQL_USER: enova_user
+      MYSQL_PASSWORD: enova_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -prootpass || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - enova_net
+
+  app:
+    build: ./app
+    container_name: app_enova
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      DB_USER: enova_user
+      DB_PASS: enova_pass
+      DB_NAME: enova
+      DB_PORT: 3306
+      # opcional: MPLCONFIGDIR para evitar problemas com matplotlib em containers não-root
+      MPLCONFIGDIR: /tmp/matplotlib
+    volumes:
+      - ./app:/app
+    working_dir: /app
+    command: python3 main.py
+    restart: unless-stopped
+    user: "1000:1000"
+    networks:
+      - enova_net
+
+volumes:
+  db_data:
+
+networks:
+  enova_net:
+    driver: bridge
+
